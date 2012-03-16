@@ -66,22 +66,12 @@ struct pwm_device	*Immvib_pwm;
 static bool g_bAmpEnabled;
 long int freq_count = FREQ_COUNT;
 
-static int prev_duty_ns;
-static int prev_period_ns;
-
 static struct i2c_client *haptic_i2c;
 
 
 static void _pwm_config(struct pwm_device *pwm, int duty_ns, int period_ns)
 {
-	if ((prev_duty_ns != duty_ns) || (prev_period_ns != period_ns)) {
-		prev_duty_ns = duty_ns;
-		prev_period_ns = period_ns;
-
-		pwm_config(pwm, duty_ns, period_ns);
-		DbgOut(KERN_DEBUG "_pwm_config called in [if]\n");
-	} else
-		DbgOut(KERN_DEBUG "_pwm_config called in [else]\n");
+	pwm_config(pwm, duty_ns, period_ns);
 }
 
 static void vibe_control_max8997(struct pwm_device *pwm, bool on)
